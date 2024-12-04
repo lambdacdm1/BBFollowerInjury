@@ -3,8 +3,8 @@ message("Using toolchain file ${CMAKE_TOOLCHAIN_FILE}.")
 
 # -------------------------------------------------- Setup project ----------------------------------------------------
 project(
-  PluginName
-  VERSION 0.0.1
+  BBFollowerInjury
+  VERSION 1.0.1
   LANGUAGES CXX
 )
 
@@ -87,6 +87,10 @@ if(CMAKE_BUILD_TYPE STREQUAL Debug)
 else()
   set(BUILD_NAME Release)
 endif()
+
+add_custom_target(copy_assets ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/contrib/Config/ActorValueData ${CMAKE_CURRENT_SOURCE_DIR}/contrib/Plugin${BUILD_NAME}/skse/plugins/ActorValueData
+)
 
 add_custom_command(
   TARGET ${PROJECT_NAME}

@@ -1,0 +1,6 @@
+[FollowerInjury]
+type = "Adaptive"
+alias = "Variable01"
+
+[Include]
+"BBFollowerInjury.esp" = ["FollowerInjury"]

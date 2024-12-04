@@ -1,15 +1,26 @@
-#include "Events.h"
 #include "Hooks.h"
 #include "Logging.h"
 #include "Settings.h"
+#include "PenaltyManager.h"
 
 void Listener(SKSE::MessagingInterface::Message* message) noexcept
 {
     if (message->type == SKSE::MessagingInterface::kDataLoaded) {
         Settings::LoadSettings();
-        Events::EquipEventHandler::Register();
         Hooks::Install();
     }
+}
+
+bool RegisterFuncs(RE::BSScript::Internal::VirtualMachine* a_vm)
+{
+    if (!a_vm) {
+        return false;
+    }
+
+    constexpr std::string_view scriptName = "AUG_FollowerInjuryScript"sv;
+    a_vm->RegisterFunction("ApplyAttributePenalty", scriptName, PenaltyHandler::ApplyAttributePenalty);
+
+    return true;
 }
 
 SKSEPluginLoad(const SKSE::LoadInterface* skse)
@@ -35,6 +46,13 @@ SKSEPluginLoad(const SKSE::LoadInterface* skse)
 
     if (const auto messaging{ SKSE::GetMessagingInterface() }; !messaging->RegisterListener(Listener)) {
         return false;
+    }
+
+    auto papyrus = SKSE::GetPapyrusInterface();
+    if (papyrus) {
+        if (papyrus->Register(RegisterFuncs)) {
+            logger::info("Papyrus functions registered");     
+        }
     }
 
     logger::info("{} has finished loading.", name);

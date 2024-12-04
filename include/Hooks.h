@@ -4,15 +4,26 @@ namespace Hooks
 {
     void Install() noexcept;
 
-    class MainUpdate : public Singleton<MainUpdate>
+    class GetAVModifier
     {
     public:
-        static i32 Thunk() noexcept;
+        static float Thunk(RE::Character* a_this, RE::ACTOR_VALUE_MODIFIER a_modifier, RE::ActorValue av);
+
+        inline static REL::Relocation<decltype(Thunk)> func;
+
+        static void Patch();
+    };
+
+    class GetAV
+    {
+    public:
+        static float Thunk(RE::ActorValueOwner* a_this, RE::ActorValue av);
+
+        static void Patch();
 
         inline static REL::Relocation<decltype(&Thunk)> func;
 
-        inline static const REL::Relocation target{ RELOCATION_ID(35565, 36564), REL::Relocate(0x748, 0xc26, 0x7ee) };
-
-        inline static const auto address{ target.address() };
+        static constexpr std::size_t idx{ 1 }; // GetActorValue 0x01
     };
+
 } // namespace Hooks
