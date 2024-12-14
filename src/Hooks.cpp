@@ -48,7 +48,7 @@ namespace Hooks
 
     void GetAVModifier::Patch()
     {
-        const std::uintptr_t hook_addr{ RELOCATION_ID(0, 38469).address() };
+        const std::uintptr_t hook_addr{ RELOCATION_ID(37524, 38469).address() };
 
         auto return_addr = hook_addr + 0x06;
 
