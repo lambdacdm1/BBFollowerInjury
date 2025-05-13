@@ -6,7 +6,7 @@
     "fmt",
     "xbyak"
   ],
-  "builtin-baseline": "a974a0a2065457eff982554127637cade92c358e",
+  "builtin-baseline": "caf048c46da8b74e6f3fb6805e2c02ee431ffaee",
   "vcpkg-configuration": {
     "registries": [
       {
